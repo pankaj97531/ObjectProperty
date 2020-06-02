@@ -89,3 +89,99 @@ console.log(t.taxReturns);// <-- NOTICE NO PARENS
 
 //try to access the private variable - produces undefined
 console.log(t._taxReturns);// <-- NOTICE NO PARENS 
+
+/***********************/
+var testobj5={
+    a : 10,
+    b : 20,
+    x : 77,
+    c : function(x,y){
+        this.x=x;
+        this.y=y;
+    },
+    d : function(){
+        return this.x+this.y;
+    }
+}
+console.log(testobj5.c(30,40));
+console.log(testobj5);
+console.log(testobj5.d());
+/**************************/
+var testobj4 = {};
+var descriptor = Object.create(null);
+descriptor.value = 'static';
+console.log(descriptor);
+Object.defineProperty(testobj4,'key',descriptor);
+Object.defineProperty(testobj4, 'key2', {
+    enumerable: false,
+    configurable: false,
+    writable: false,
+    value: 'static2'
+  });
+console.log(testobj4);
+console.log(testobj4.key);
+testobj4.key="change value";
+testobj4.key2="change value";
+console.log(testobj4);
+// recycling same object
+function withValue(value){
+    var d = withValue.d || {
+        writable : false,
+        configurable :false,
+        enumerable : false,
+        value : value
+    }
+    if(d.value !==value){
+        d.value = value;
+    }
+    return d;
+}
+Object.defineProperty(testobj4,"key3",withValue('static3'));
+Object.defineProperty(testobj4,"key4",{
+    value:"static4",
+    enumerable : false,
+    configurable : true,
+    writable : false
+});
+console.log(testobj4);
+console.log(testobj4.key3)
+console.log(testobj4);
+console.log(testobj4.key4)
+Object.defineProperty(testobj4,"key4",{
+    value : "new value",
+    enumerable : false,
+    writable : false,
+    configurable : false
+});
+testobj4.key4 = "change value";
+console.log(testobj4);
+console.log(testobj4.key4);
+Object.defineProperty(testobj4,"key5",{
+    value : "static5",
+    enumerable : false,
+    writable : true,
+    configurable : false
+});
+console.log(testobj4);
+console.log(testobj4.key5);
+testobj4.key5 = "change value";
+console.log(testobj4);
+console.log(testobj4.key5);
+Object.defineProperty(testobj4,"key6",{
+    value : "static6",
+    enumerable : true,
+    writable : false,
+    configurable : false
+});
+console.log(testobj4);
+console.log(testobj4.key6);
+console.log(testobj4.propertyIsEnumerable('key'));
+console.log(testobj4.propertyIsEnumerable('key2'));
+console.log(testobj4.propertyIsEnumerable('key3'));
+console.log(testobj4.propertyIsEnumerable('key4'));
+console.log(testobj4.propertyIsEnumerable('key5'));
+console.log(testobj4.propertyIsEnumerable('key6'));
+console.log(testobj4.propertyIsEnumerable('key7'));
+for(let key in testobj4){
+    console.log("key ",key);
+}
